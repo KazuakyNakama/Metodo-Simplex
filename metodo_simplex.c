@@ -1,13 +1,13 @@
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-
-/* Pesquisa Operacional - Trabalho 2
+/* Pesquisa Operacional - Metodo Simplex
  * Luiz Fernando Kazuaky Nakama
  * Caio Cesar Lopes Teles de Menezes
  * Victor Almeida Chagas
- * 04/06/2016
+ * 06/10/2016
  */
+
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 
  float typedef tipo_dados;
 
@@ -39,7 +39,7 @@ int main()
     unsigned short int ibirapuera = 13;
     do{
         system("cls");
-        printf("\n|===============================================|\n");
+        printf("|===============================================|\n");
         printf("|  \t\t  METODO SIMPLEX\t\t|");
         printf("\n|===============================================|\n");
         printf("|\t<1> - Leitura de Dados\t\t\t|\n");
@@ -78,34 +78,11 @@ void leitura_dados()
 {
     int i, j, k, igual = 0;
     system("cls");
-    //Caixa do menu
-    for(i = 0; i < 75; i++){
-        printf("%c", 219);
-    }
-    printf("%c%c%c%c",219,219,219,219);
-    printf("\n%c%c%c%c",219,219,176,176);
-    for(i = 0; i < 73; i++){
-        printf("%c", 176);
-    }
-    printf("%c%c",219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\tLEITURA DE DADOS\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c\n",219,219,176,176,176,176,219,219);
-    printf("%c%c",219,219);
-    for(i = 0; i < 75; i++){
-        printf("%c", 176);
-    }
-    printf("%c%c", 219,219);
-    printf("\n");
-    printf("%c%c", 219,219);
-    for(i = 0; i < 77; i++){
-        printf("%c", 219);
-    }
+
+    printf("\t\t\t\tLEITURA DE DADOS\n\n");
 
     //Armazena os dados em uma estrutura dados
-    printf("\n\n\nMinimizacao[0] - Maximizacao[1]: ");
+    printf("Minimizacao[0] - Maximizacao[1]: ");
     scanf("%d", &d.maxmin);
     while(d.maxmin < 0 || d.maxmin > 1){
         fprintf(stderr, "Valor invalido! Digite novamente: ");
@@ -128,9 +105,7 @@ void leitura_dados()
     for(i = 0; i < d.variaveis; i++){
         printf("Coeficiente da variavel x%d: ",i);
         scanf("%f", &d.objetivo[i]);
-        if(d.maxmin == 1){
-            d.objetivo[i] *= -1;
-        }
+        if(d.maxmin == 1) d.objetivo[i] *= -1;
     }
 
     for(i = 0; i < d.restricoes; i++){
@@ -144,7 +119,7 @@ void leitura_dados()
         fflush(stdin);
         printf("Termo independente: ");
         scanf("%f", &d.r[i + igual].termo);
-        //Caso o tipo de restriÁ„o seja >=, o termo e os coeficientes s„o multiplicados por -1
+        //Caso o tipo de restri√ß√£o seja >=, o termo e os coeficientes s√£o multiplicados por -1
         if(d.r[i + igual].tipo[0] == '>'){
             for(k = 0; k < d.variaveis; k++){
                 d.r[i + igual].coeficiente[k] *= -1;
@@ -152,7 +127,7 @@ void leitura_dados()
             d.r[i + igual].termo *= -1;
         }
         else{
-            //Caso o tipo de restriÁ„o seja ==, ser· criada 2 restriÁıes.
+            //Caso o tipo de restri√ß√£o seja ==, ser√° criada 2 restri√ß√µes.
             //Uma normal e uma com o termo e os coeficientes multiplicados por -1
             if(d.r[i + igual].tipo[0] == '='){
                 igual++;
@@ -174,31 +149,7 @@ void metodo_simplex(float matriz[][d.variaveis + d.restricoes + 1])
     float menor, div, teste, matriz2[d.restricoes + 1][d.variaveis + d.restricoes + 1];
     int i, j, coluna_menor, linha_menor, ok, cont = 0, bambam[d.restricoes];
 
-    //Caixa do menu
-    for(i = 0; i < 75; i++){
-        printf("%c", 219);
-    }
-    printf("%c%c%c%c",219,219,219,219);
-    printf("\n%c%c%c%c",219,219,176,176);
-    for(i = 0; i < 73; i++){
-        printf("%c", 176);
-    }
-    printf("%c%c",219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\tTABELA SIMPLEX\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c\n",219,219,176,176,176,176,219,219);
-    printf("%c%c",219,219);
-    for(i = 0; i < 75; i++){
-        printf("%c", 176);
-    }
-    printf("%c%c", 219,219);
-    printf("\n");
-    printf("%c%c", 219,219);
-    for(i = 0; i < 77; i++){
-        printf("%c", 219);
-    }
+    printf("\t\t\t\tTABELA SIMPLEX\n");
 
     for(i = 0; i < d.restricoes; i++){
         bambam[i] = i + d.variaveis;
@@ -208,39 +159,25 @@ void metodo_simplex(float matriz[][d.variaveis + d.restricoes + 1])
     printf("\n\n\nQuadro inicial\n");
     printf("Base     ");
     for(i = 0; i < d.variaveis + d.restricoes; i++){
-        if(i == d.variaveis + d.restricoes - 1){
-                printf("x%d    ", i);
-        }
+        if(i == d.variaveis + d.restricoes - 1) printf("x%d    ", i);
         else{
-            if(i < 10){
-                printf("x%d       ", i);
-            }
-            else{
-                printf("x%d      ", i);
-            }
+            if(i < 10) printf("x%d       ", i);
+            else printf("x%d      ", i);
         }
     }
     printf("Solucao\n");
     for(i = 0; i < d.restricoes + 1; i++){
         if(i == 0){
-            if(d.maxmin == 1){
-                printf("z     ");
-            }
-            else{
-                printf("-z    ");
-            }
+            if(d.maxmin == 1) printf("z     ");
+            else printf("-z    ");
         }
-        else{
-            printf("x%d    ", bambam[i - 1]);
-        }
-        for(j = 0; j < d.variaveis + d.restricoes + 1; j++){
-            printf("%7.2f  ", matriz[i][j]);
-        }
+        else printf("x%d    ", bambam[i - 1]);
+        for(j = 0; j < d.variaveis + d.restricoes + 1; j++) printf("%7.2f  ", matriz[i][j]);
         printf("\n");
     }
 
     while(cont >= 0){
-        //Verifica se o problema È vi·vel, procurando a linha mais negativa na coluna da soluÁ„o
+        //Verifica se o problema √© vi√°vel, procurando a linha mais negativa na coluna da solu√ß√£o
         menor = -0.001;
         div = 0;
         for(i = 1; i < d.restricoes + 1; i++){
@@ -250,7 +187,7 @@ void metodo_simplex(float matriz[][d.variaveis + d.restricoes + 1])
                 div = 1;
             }
         }
-        //Acha a raz„o da coluna da linha menor com a coluna da linha z mais prÛxima de 0, caso o problema n„o esteja vi·vel
+        //Acha a raz√£o da coluna da linha menor com a coluna da linha z mais pr√≥xima de 0, caso o problema n√£o esteja vi√°vel
         if(div == 1){
             menor = 2147483647;
             for(i = 0; i < d.variaveis + d.restricoes; i++){
@@ -276,7 +213,7 @@ void metodo_simplex(float matriz[][d.variaveis + d.restricoes + 1])
                 }
             }*/
 
-        //Verifica se o problema est· otimizado identificando a coluna mais negativa
+        //Verifica se o problema est√° otimizado identificando a coluna mais negativa
         if(div == 0){
             menor = 0;
             for(i = 0; i < d.variaveis + d.restricoes + d.maxmin; i++){
@@ -286,14 +223,12 @@ void metodo_simplex(float matriz[][d.variaveis + d.restricoes + 1])
                 }
             }
         }
-        //Caso n„o haja n˙meros negativos nas colunas da linha da soluÁ„o, o programa chegou na ˙ltima interaÁ„o e sai do laÁo
-        if(menor == 0){
-            break;
-        }
-        //Incrementa o contador, indicando o n˙mero da interaÁ„o
-        cont++;
+        //Caso n√£o haja n√∫meros negativos nas colunas da linha da solu√ß√£o, o programa chegou na √∫ltima intera√ß√£o e sai do la√ßo
+        if(menor == 0) break;
 
-        //Acha a linha do menor resultado da divis„o dos termos independentes pelas linhas da coluna mais negativa
+        //Incrementa o contador, indicando o n√∫mero da intera√ß√£o
+        cont++;
+        //Acha a linha do menor resultado da divis√£o dos termos independentes pelas linhas da coluna mais negativa
         if(div == 0){
             menor = 2147483647;
             for(i = 1; i < d.restricoes + 1; i++){
@@ -305,12 +240,10 @@ void metodo_simplex(float matriz[][d.variaveis + d.restricoes + 1])
             }
         }
 
-        //Coloca os elementos da linha menor divididos pelo pivÙ na matriz nova
-        for(i = 0; i < d.variaveis + d.restricoes + 1; i++){
-            matriz2[linha_menor][i] = matriz[linha_menor][i] / matriz[linha_menor][coluna_menor];
-        }
+        //Coloca os elementos da linha menor divididos pelo piv√¥ na matriz nova
+        for(i = 0; i < d.variaveis + d.restricoes + 1; i++) matriz2[linha_menor][i] = matriz[linha_menor][i] / matriz[linha_menor][coluna_menor];
 
-        //Insere o elemento da matriz subtraÌdo pelo elemento da coluna menor
+        //Insere o elemento da matriz subtra√≠do pelo elemento da coluna menor
         //multiplicado pela linha menor da matriz na nova matriz
         for(i = 0; i < d.restricoes + 1; i++){
             if(i != linha_menor){
@@ -320,7 +253,7 @@ void metodo_simplex(float matriz[][d.variaveis + d.restricoes + 1])
             }
         }
 
-        //Matriz antiga recebe a matriz nova, para poder repetir o processo atÈ chegar na soluÁ„o
+        //Matriz antiga recebe a matriz nova, para poder repetir o processo at√© chegar na solu√ß√£o
         for(i = 0; i < d.restricoes + 1; i++){
             for(j = 0; j < d.variaveis + d.restricoes + 1; j++){
                 matriz[i][j] = matriz2[i][j];
@@ -338,35 +271,21 @@ void metodo_simplex(float matriz[][d.variaveis + d.restricoes + 1])
         printf("\nInteracao %d: entra x%d, sai x%d\n", cont, coluna_menor, ok);
         printf("Base     ");
         for(i = 0; i < d.variaveis + d.restricoes; i++){
-            if(i == d.variaveis + d.restricoes - 1){
-                printf("x%d    ", i);
-            }
+            if(i == d.variaveis + d.restricoes - 1) printf("x%d    ", i);
             else{
-                if(i < 10){
-                    printf("x%d       ", i);
-                }
-                else{
-                    printf("x%d      ", i);
-                }
+                if(i < 10) printf("x%d       ", i);
+                else printf("x%d      ", i);
             }
         }
         printf("Solucao\n");
         for(i = 0; i < d.restricoes + 1; i++){
             if(i == 0){
-                if(d.maxmin == 1){
-                    printf("z     ");
-                }
-                else{
-                    printf("-z    ");
-                }
+                if(d.maxmin == 1) printf("z     ");
+                else printf("-z    ");
             }
             else{
-                if(bambam[i - 1] < 10){
-                    printf("x%d    ", bambam[i - 1]);
-                }
-                else{
-                    printf("x%d   ", bambam[i - 1]);
-                }
+                if(bambam[i - 1] < 10) printf("x%d    ", bambam[i - 1]);
+                else printf("x%d   ", bambam[i - 1]);
             }
             for(j = 0; j < d.variaveis + d.restricoes + 1; j++){
                 printf("%7.2f  ", matriz[i][j]);
@@ -376,8 +295,8 @@ void metodo_simplex(float matriz[][d.variaveis + d.restricoes + 1])
     }
 
     printf("\nSolucao: %.2f\n", matriz[0][d.variaveis + d.restricoes]);
-    //Printa o valor das variaveis para soluÁ„o
-    //linha_menor e coluna_menor foram reutilizados para economizar memÛria
+    //Printa o valor das variaveis para solu√ß√£o
+    //linha_menor e coluna_menor foram reutilizados para economizar mem√≥ria
     ok = -1;
     for(i = 0; i < d.variaveis; i++){
         coluna_menor = 2147483647;
@@ -424,35 +343,21 @@ void metodo_simplex_arquivo(float matriz[][d.variaveis + d.restricoes + 1])
     fprintf(fp, "\n\nQuadro inicial\n");
     fprintf(fp, "Base     ");
     for(i = 0; i < d.variaveis + d.restricoes; i++){
-        if(i == d.variaveis + d.restricoes - 1){
-            fprintf(fp, "x%d    ", i);
-        }
+        if(i == d.variaveis + d.restricoes - 1) fprintf(fp, "x%d    ", i);
         else{
-            if(i < 10){
-                fprintf(fp, "x%d       ", i);
-            }
-            else{
-                fprintf(fp, "x%d      ", i);
-            }
+            if(i < 10) fprintf(fp, "x%d       ", i);
+            else fprintf(fp, "x%d      ", i);
         }
     }
     fprintf(fp, "Solucao\n");
     for(i = 0; i < d.restricoes + 1; i++){
         if(i == 0){
-            if(d.maxmin == 1){
-                fprintf(fp, "z     ");
-            }
-            else{
-                fprintf(fp, "-z    ");
-            }
+            if(d.maxmin == 1) fprintf(fp, "z     ");
+            else fprintf(fp, "-z    ");
         }
         else{
-            if(bambam[i - 1] < 10){
-                fprintf(fp, "x%d    ", bambam[i - 1]);
-            }
-            else{
-                fprintf(fp, "x%d   ", bambam[i - 1]);
-            }
+            if(bambam[i - 1] < 10) fprintf(fp, "x%d    ", bambam[i - 1]);
+            else fprintf(fp, "x%d   ", bambam[i - 1]);
         }
         for(j = 0; j < d.variaveis + d.restricoes + 1; j++){
             fprintf(fp, "%7.2f  ", matriz[i][j]);
@@ -461,7 +366,7 @@ void metodo_simplex_arquivo(float matriz[][d.variaveis + d.restricoes + 1])
     }
 
     while(cont >= 0){
-        //Verifica se o problema È vi·vel, procurando a linha mais negativa na coluna da soluÁ„o
+        //Verifica se o problema √© vi√°vel, procurando a linha mais negativa na coluna da solu√ß√£o
         menor = -0.001;
         div = 0;
         for(i = 1; i < d.restricoes + 1; i++){
@@ -471,7 +376,7 @@ void metodo_simplex_arquivo(float matriz[][d.variaveis + d.restricoes + 1])
                 div = 1;
             }
         }
-        //Acha a raz„o da coluna da linha menor com a coluna da linha z mais prÛxima de 0, caso o problema n„o esteja vi·vel
+        //Acha a raz√£o da coluna da linha menor com a coluna da linha z mais pr√≥xima de 0, caso o problema n√£o esteja vi√°vel
         if(div == 1){
             menor = 2147483647;
             for(i = 0; i < d.variaveis + d.restricoes; i++){
@@ -486,7 +391,7 @@ void metodo_simplex_arquivo(float matriz[][d.variaveis + d.restricoes + 1])
             }
         }
 
-        //Verifica se o problema est· otimizado identificando a coluna mais negativa
+        //Verifica se o problema est√° otimizado identificando a coluna mais negativa
         if(div == 0){
             menor = 0;
             for(i = 0; i < d.variaveis + d.restricoes + d.maxmin; i++){
@@ -496,14 +401,12 @@ void metodo_simplex_arquivo(float matriz[][d.variaveis + d.restricoes + 1])
                 }
             }
         }
-        //Caso n„o haja n˙meros negativos nas colunas da linha da soluÁ„o, o programa chegou na ˙ltima interaÁ„o e sai do laÁo
-        if(menor == 0){
-            break;
-        }
-        //Incrementa o contador, indicando o n˙mero da interaÁ„o
+        //Caso n√£o haja n√∫meros negativos nas colunas da linha da solu√ß√£o, o programa chegou na √∫ltima intera√ß√£o e sai do la√ßo
+        if(menor == 0) break;
+        //Incrementa o contador, indicando o n√∫mero da intera√ß√£o
         cont++;
 
-        //Acha a linha do menor resultado da divis„o dos termos independentes pelas linhas da coluna mais negativa
+        //Acha a linha do menor resultado da divis√£o dos termos independentes pelas linhas da coluna mais negativa
         if(div == 0){
             menor = 2147483647;
             for(i = 1; i < d.restricoes + 1; i++){
@@ -515,12 +418,12 @@ void metodo_simplex_arquivo(float matriz[][d.variaveis + d.restricoes + 1])
             }
         }
 
-        //Coloca os elementos da linha menor divididos pelo pivÙ na matriz nova
+        //Coloca os elementos da linha menor divididos pelo piv√¥ na matriz nova
         for(i = 0; i < d.variaveis + d.restricoes + 1; i++){
             matriz2[linha_menor][i] = matriz[linha_menor][i] / matriz[linha_menor][coluna_menor];
         }
 
-        //Insere o elemento da matriz subtraÌdo pelo elemento da coluna menor
+        //Insere o elemento da matriz subtra√≠do pelo elemento da coluna menor
         //multiplicado pela linha menor da matriz na nova matriz
         for(i = 0; i < d.restricoes + 1; i++){
             if(i != linha_menor){
@@ -530,7 +433,7 @@ void metodo_simplex_arquivo(float matriz[][d.variaveis + d.restricoes + 1])
             }
         }
 
-        //Matriz antiga recebe a matriz nova, para poder repetir o processo atÈ chegar na soluÁ„o
+        //Matriz antiga recebe a matriz nova, para poder repetir o processo at√© chegar na solu√ß√£o
         for(i = 0; i < d.restricoes + 1; i++){
             for(j = 0; j < d.variaveis + d.restricoes + 1; j++){
                 matriz[i][j] = matriz2[i][j];
@@ -548,35 +451,21 @@ void metodo_simplex_arquivo(float matriz[][d.variaveis + d.restricoes + 1])
         fprintf(fp, "\nInteracao %d: entra x%d, sai x%d\n", cont, coluna_menor, ok);
         fprintf(fp, "Base     ");
         for(i = 0; i < d.variaveis + d.restricoes; i++){
-            if(i == d.variaveis + d.restricoes - 1){
-                fprintf(fp, "x%d    ", i);
-            }
+            if(i == d.variaveis + d.restricoes - 1) fprintf(fp, "x%d    ", i);
             else{
-                if(i < 10){
-                    fprintf(fp, "x%d       ", i);
-                }
-                else{
-                    fprintf(fp, "x%d      ", i);
-                }
+                if(i < 10) fprintf(fp, "x%d       ", i);
+                else fprintf(fp, "x%d      ", i);
             }
         }
         fprintf(fp, "Solucao\n");
         for(i = 0; i < d.restricoes + 1; i++){
             if(i == 0){
-                if(d.maxmin == 1){
-                    fprintf(fp, "z     ");
-                }
-                else{
-                    fprintf(fp, "-z    ");
-                }
+                if(d.maxmin == 1) fprintf(fp, "z     ");
+                else fprintf(fp, "-z    ");
             }
             else{
-                if(bambam[i - 1] < 10){
-                    fprintf(fp, "x%d    ", bambam[i - 1]);
-                }
-                else{
-                    fprintf(fp, "x%d   ", bambam[i - 1]);
-                }
+                if(bambam[i - 1] < 10) fprintf(fp, "x%d    ", bambam[i - 1]);
+                else fprintf(fp, "x%d   ", bambam[i - 1]);
             }
             for(j = 0; j < d.variaveis + d.restricoes + 1; j++){
                 fprintf(fp, "%7.2f  ", matriz[i][j]);
@@ -586,8 +475,8 @@ void metodo_simplex_arquivo(float matriz[][d.variaveis + d.restricoes + 1])
     }
 
     fprintf(fp, "\nSolucao: %.2f\n", matriz[0][d.variaveis + d.restricoes]);
-    //Printa o valor das variaveis para soluÁ„o
-    //linha_menor e coluna_menor foram reutilizados para economizar memÛria
+    //Printa o valor das variaveis para solu√ß√£o
+    //linha_menor e coluna_menor foram reutilizados para economizar mem√≥ria
     ok = -1;
     for(i = 0; i < d.variaveis; i++){
         coluna_menor = 2147483647;
@@ -635,9 +524,7 @@ void passa_matriz(char op)
                     matriz[i][j++] = 1;
                     z++;
                 }
-                else{
-                    matriz[i][j++] = 0;
-                }
+                else matriz[i][j++] = 0;
             }
             matriz[i][j] = d.r[i - 1].termo;
         }
@@ -652,85 +539,52 @@ void passa_matriz(char op)
 
 void instrucao()
 {
-    int i;
     system("cls");
-    //Caixa do menu
-    for(i = 0; i < 75; i++){
-        printf("%c", 219);
-    }
-    printf("%c%c%c%c",219,219,219,219);
-    printf("\n%c%c%c%c",219,219,176,176);
-    for(i = 0; i < 73; i++){
-        printf("%c", 176);
-    }
-    printf("%c%c",219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t   INSTRUCOES\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c\n",219,219,176,176,176,176,219,219);
-    printf("%c%c",219,219);
-    for(i = 0; i < 75; i++){
-        printf("%c", 176);
-    }
-    printf("%c%c", 219,219);
-    printf("\n");
-    printf("%c%c", 219,219);
-    for(i = 0; i < 77; i++){
-        printf("%c", 219);
-    }
-    printf("\n\n\nAntes de selecionar qualquer opcao, o usuario devera entrar com os dados\n");
-    printf("do problema. Portanto, mesmo que o usuario entre primeiramente com alguma\n");
-    printf("operacao, FORCAREMOS A LEITURA DE DADOS.\n");
-    printf("\n\nMetodo simplex:\n");
-    printf("Na opcao metodo simplex voce entrara com os dados do problema e o programa\n");
-    printf("te dara todas as interacoes do metodo simplex e no final dara a solucao e\n");
-    printf("o valor das variaveis.\n");
-    printf("Recomendamos essa opcao para quantidades de variaveis e restricoes menores,\n");
-    printf("que provavelmente caibam na tela.\n");
-    printf("\n\nMetodo simplex com arquivo:\n");
-    printf("A opcao metodo simplex com arquivo e basicamente a mesma coisa da opcao\n");
-    printf("anterior. A diferenca e que ao inves de mostrar as interacoes, solucao e\n");
-    printf("valor das variaveis na tela, o programa criara um arquivo com tudo isso,\n");
-    printf("na pasta onde o codigo fonte estiver salvo.\n");
-    printf("Recomendamos essa opcao para quantidades de variaveis e restricoes muito\n");
-    printf("grandes que provavelmente nao caberiam na tela.\n");
-    printf("\n\nPressione 0 para retornar ao menu...\n");
+
+    printf("|===========================================================================|\n");
+    printf("|\t\t\t\tINSTRUCOES\t\t\t\t    |\n");
+    printf("|===========================================================================|\n");
+    printf("|\t\t\t\t\t\t\t\t\t    |\n");
+    printf("|Antes de selecionar qualquer opcao, o usuario devera entrar com os dados   |\n");
+    printf("|do problema. Portanto, mesmo que o usuario entre primeiramente com alguma  |\n");
+    printf("|operacao, FORCAREMOS A LEITURA DE DADOS.\t\t\t\t    |\n");
+    printf("|\t\t\t\t\t\t\t\t\t    |\n");
+    printf("|METODO SIMPLEX:\t\t\t\t\t\t\t    |\n");
+    printf("|Na opcao metodo simplex voce entrara com os dados do problema e o programa |\n");
+    printf("|te dara todas as interacoes do metodo simplex e no final dara a solucao e  |\n");
+    printf("|o valor das variaveis.\t\t\t\t\t\t\t    |\n");
+    printf("|Recomendamos essa opcao para quantidades de variaveis e restricoes menores,|\n");
+    printf("|que provavelmente caibam na tela.\t\t\t\t\t    |\n");
+    printf("|\t\t\t\t\t\t\t\t\t    |\n");
+    printf("|METODO SIMPLEX COM ARQUIVO:\t\t\t\t\t\t    |\n");
+    printf("|A opcao metodo simplex com arquivo e basicamente a mesma coisa da opcao    |\n");
+    printf("|anterior. A diferenca e que ao inves de mostrar as interacoes, solucao e   |\n");
+    printf("|valor das variaveis na tela, o programa criara um arquivo com tudo isso,   |\n");
+    printf("|na pasta onde o codigo fonte estiver salvo.\t\t\t\t    |\n");
+    printf("|Recomendamos essa opcao para quantidades de variaveis e restricoes muito   |\n");
+    printf("|grandes que provavelmente nao caberiam na tela.\t\t\t    |\n");
+    printf("|\t\t\t\t\t\t\t\t\t    |\n");
+    printf("|\t\t\t\t\t\t\t\t\t    |\n");
+    printf("|Pressione 0 para retornar ao menu...\t\t\t\t\t    |\n");
+    printf("|===========================================================================|\n");
     while(getch() != '0');
 }
 
 void staff()
 {
-    int i;
     system("cls");
-    //Caixa do menu
-    for(i = 0; i < 75; i++){
-        printf("%c", 219);
-    }
-    printf("%c%c%c%c",219,219,219,219);
-    printf("\n%c%c%c%c",219,219,176,176);
-    for(i = 0; i < 73; i++){
-        printf("%c", 176);
-    }
-    printf("%c%c",219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t    STAFF\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c",219,219,176,176,176,176,219,219);
-    printf("\n%c%c%c%c\t\t\t\t\t\t\t\t\t   %c%c%c%c\n",219,219,176,176,176,176,219,219);
-    printf("%c%c",219,219);
-    for(i = 0; i < 75; i++){
-        printf("%c", 176);
-    }
-    printf("%c%c", 219,219);
-    printf("\n");
-    printf("%c%c", 219,219);
-    for(i = 0; i < 77; i++){
-        printf("%c", 219);
-    }
-    printf("\n\n\n\t%c Luiz Fernando Kazuaky Nakama (Ciencias da Computacao)\n\n", 16);
-    printf("\n\n\t%c Caio Cesar Lopes Teles de Menezes (Ciencias da Computacao)\n\n", 16);
-    printf("\n\n\t%c Victor Almeida Chagas (Ciencias da Computacao)\n\n", 16);
-    printf("\nPressione 0 para retornar ao menu...\n");
+    printf("|===========================================================|\n");
+    printf("|\t\t\t   STAFF\t\t\t    |\n");
+    printf("|===========================================================|\n");
+    printf("|\t\t\t\t\t\t\t    |\n");
+    printf("|Luiz Fernando Kazuaky Nakama (Ciencias da Computacao)\t    |\n");
+    printf("|\t\t\t\t\t\t\t    |\n");
+    printf("|Caio Cesar Lopes Teles de Menezes (Ciencias da Computacao) |\n");
+    printf("|\t\t\t\t\t\t\t    |\n");
+    printf("|Victor Almeida Chagas (Ciencias da Computacao)\t\t    |\n");
+    printf("|\t\t\t\t\t\t\t    |\n");
+    printf("|\t\t\t\t\t\t\t    |\n");
+    printf("|Pressione 0 para retornar ao menu...\t\t\t    |\n");
+    printf("|===========================================================|\n");
     while(getch() != '0');
 }
